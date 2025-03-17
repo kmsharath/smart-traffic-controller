@@ -1,0 +1,52 @@
+#! /c/Source/iverilog-install/bin/vvp
+:ivl_version "12.0 (devel)" "(s20150603-1539-g2693dd32b)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision + 0;
+:vpi_module "C:\iverilog\lib\ivl\system.vpi";
+:vpi_module "C:\iverilog\lib\ivl\vhdl_sys.vpi";
+:vpi_module "C:\iverilog\lib\ivl\vhdl_textio.vpi";
+:vpi_module "C:\iverilog\lib\ivl\v2005_math.vpi";
+:vpi_module "C:\iverilog\lib\ivl\va_math.vpi";
+S_000001d64aef2900 .scope module, "sensor_interface" "sensor_interface" 2 1;
+ .timescale 0 0;
+    .port_info 0 /INPUT 1 "clk";
+    .port_info 1 /INPUT 1 "reset";
+    .port_info 2 /INPUT 1 "vehicle_sensor";
+    .port_info 3 /INPUT 1 "ped_sensor";
+    .port_info 4 /OUTPUT 1 "vehicle_detected";
+    .port_info 5 /OUTPUT 1 "ped_detected";
+o000001d64af26fd8 .functor BUFZ 1, C4<z>; HiZ drive
+v000001d64aef3090_0 .net "clk", 0 0, o000001d64af26fd8;  0 drivers
+v000001d64aedeeb0_0 .var "ped_detected", 0 0;
+o000001d64af27038 .functor BUFZ 1, C4<z>; HiZ drive
+v000001d64aef2a90_0 .net "ped_sensor", 0 0, o000001d64af27038;  0 drivers
+o000001d64af27068 .functor BUFZ 1, C4<z>; HiZ drive
+v000001d64aef2b30_0 .net "reset", 0 0, o000001d64af27068;  0 drivers
+v000001d64aef2bd0_0 .var "vehicle_detected", 0 0;
+o000001d64af270c8 .functor BUFZ 1, C4<z>; HiZ drive
+v000001d64af23890_0 .net "vehicle_sensor", 0 0, o000001d64af270c8;  0 drivers
+E_000001d64aed8c40 .event posedge, v000001d64aef2b30_0, v000001d64aef3090_0;
+    .scope S_000001d64aef2900;
+T_0 ;
+    %wait E_000001d64aed8c40;
+    %load/vec4 v000001d64aef2b30_0;
+    %flag_set/vec4 8;
+    %jmp/0xz  T_0.0, 8;
+    %pushi/vec4 0, 0, 1;
+    %assign/vec4 v000001d64aef2bd0_0, 0;
+    %pushi/vec4 0, 0, 1;
+    %assign/vec4 v000001d64aedeeb0_0, 0;
+    %jmp T_0.1;
+T_0.0 ;
+    %load/vec4 v000001d64af23890_0;
+    %assign/vec4 v000001d64aef2bd0_0, 0;
+    %load/vec4 v000001d64aef2a90_0;
+    %assign/vec4 v000001d64aedeeb0_0, 0;
+T_0.1 ;
+    %jmp T_0;
+    .thread T_0;
+# The file index is used to find the file name in the following table.
+:file_names 3;
+    "N/A";
+    "<interactive>";
+    "../rtl/sensor_intrface.v";
